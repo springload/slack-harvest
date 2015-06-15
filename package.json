@@ -1,0 +1,27 @@
+{
+  "name": "harvester",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=development nodemon index.js",
+    "production": "NODE_ENV=production pm2 start index.js -i max",
+    "config": "cp config/default.json.dist config/default.json"
+  },
+  "author": "",
+  "license": "BSD-3",
+  "dependencies": {
+    "babel": "^5.5.8",
+    "bluebird": "^2.9.30",
+    "body-parser": "^1.13.0",
+    "config": "^1.14.0",
+    "express": "^4.12.4",
+    "harvest": "^0.1.0",
+    "request": "^2.57.0",
+    "session": "^0.1.0",
+    "slack-node": "^0.1.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.3.7"
+  }
+}

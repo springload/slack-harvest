@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "ignore": ["specs/*", "fixtures/*", "node_modules"],
+  "execMap": {
+    "py": "python"
+  }
+}

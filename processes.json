@@ -1,0 +1,20 @@
+{
+  "apps" : [
+    {
+        "name"        : "harvester",
+        "script"      : "index.js",
+        "instances"   : 4,
+        "exec_mode"   : "cluster_mode",
+        "args"        : ["--next-gen-js"],
+        "watch"       : true,
+        "merge_logs"  : true,
+        "cwd"         : "./",
+        "env": {
+            "NODE_ENV": "production"
+        },
+        "pid_file"         : "pids/node-harvester-api.pid",
+        "error_file"       : "/var/log/node-harvester-api/node-harvester-api.stderr.log",
+        "out_file"         : "log/node-harvester-api.stdout.log"
+    }
+  ]
+}
