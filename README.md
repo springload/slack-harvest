@@ -2,9 +2,18 @@
 
 Plumbing between Slack and Harvest with node.js
 
-Right now, this doesn't do much. It generates a list of users from slack, mashes
-them up with a list of users from harvest, paired via email address, and outputs
-the result as JSON.
+Right now, it runs a bot to generate a message asking users to do their timesheets.
+The bot options can be configured in `config/default.json`. You'll need a webhook
+URL, which you can get from `https://[account].slack.com/services/`.
+
+You'll also need Harvest API credentials. Those are in the UPM under 'Harvest Bot User'.
+
+
+### TODO
+* [ ] Get Public Holidays from an API and respect them.
+* [ ] Humanise the message some more "tom, dick __and__ harry"
+* [ ] Handle leave, scrum, other calendar events with a nice integration?
+* [ ] Open source it (eventually)
 
 
 ## Installation
@@ -27,12 +36,14 @@ Harvester uses nodemon for development.
 npm start
 ```
 
-Then you can query the APIs and generate users:
+To bug users on #chatload, just curl the index page:
 
 ```bash
-curl http://localhost:3000 > users.json
+curl http://localhost:3000
 ```
 
+There's also a scheduler via `node-schedule` that automatically runs at
+6pm on weekdays.
 
 
 ## Production
