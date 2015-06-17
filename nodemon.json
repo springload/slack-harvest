@@ -1,6 +1,6 @@
 {
   "verbose": true,
-  "ignore": ["specs/*", "fixtures/*", "node_modules", "results/*.json"],
+  "ignore": ["specs/*", "fixtures/*", "node_modules", "results/*.json", ".git", ".git/*"],
   "execMap": {
     "py": "python"
   }
