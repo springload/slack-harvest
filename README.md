@@ -40,6 +40,7 @@ To bug users on #chatload, just curl the index page:
 
 ```bash
 curl http://localhost:3000/timesheets-plz/
+curl http://localhost:3000/percentage-plz/
 ```
 
 There's also a scheduler via `node-schedule` that automatically runs at
