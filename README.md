@@ -6,14 +6,12 @@ Right now, it runs a bot to generate a message asking users to do their timeshee
 The bot options can be configured in `config/default.json`. You'll need a webhook
 URL, which you can get from `https://[account].slack.com/services/`.
 
-You'll also need Harvest API credentials. Those are in the UPM under 'Harvest Bot User'.
-
+You'll also need Harvest API credentials (store them safely away from git/GitHub, eg. in a password manager).
 
 ### TODO
 * [ ] Get Public Holidays from an API and respect them.
 * [ ] Humanise the message some more "tom, dick __and__ harry"
-* [ ] Handle leave, scrum, other calendar events with a nice integration?
-* [ ] Open source it (eventually)
+* [ ] Handle leave, other calendar events with a nice integration?
 
 
 ## Installation
@@ -36,7 +34,7 @@ Harvester uses nodemon for development.
 npm start
 ```
 
-To bug users on #chatload, just curl the index page:
+To bug users on, just `curl` the URLs:
 
 ```bash
 curl http://localhost:3000/timesheets-plz/
@@ -48,6 +46,16 @@ There's also a scheduler via `node-schedule` that automatically runs at
 
 
 ## Production
+
+Put the app on an internal server. It doesn't need to be
+accessible by the general public, no need for a reverse proxy set up.
+
+```bash
+curl http://10.0.0.10:3444/timesheets-plz/
+curl http://10.0.0.10:3444/percentage-plz/
+```
+
+
 Harvester relies on the fantastic PM2 library in production.
 
 Install it on your server with:
