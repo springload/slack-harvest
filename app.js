@@ -24,14 +24,14 @@ Promise.promisifyAll(Harvest.prototype);
 
 
 const app         = express();
+
 const harvest     = new Harvest({
     subdomain:      config.get('harvest.subdomain'),
     email:          config.get('harvest.email'),
     password:       config.get('harvest.password')
 });
 
-const People            = Promise.promisifyAll(harvest.People);
-const TimeTracking      = Promise.promisifyAll(harvest.TimeTracking);
+const slack             = new Slack(config.get('slack.apiToken'));
 
 
 // Represent the result of a promise chain as JSON.
@@ -52,19 +52,39 @@ function apiResponse(res, promise) {
 
 
 app.get('/timesheets-plz/', (req, res) => {
-    const slack         = new Slack(config.get('slack.apiToken'));
     const promise       = timesheets(slack, harvest);
     return apiResponse(res, promise)
 });
 
 
 app.get('/percentage-plz/', (req, res) => {
-    const slack             = new Slack(config.get('slack.apiToken'));
     const promise           = billablePercentage(slack, harvest);
     return apiResponse(res, promise);
 });
 
 
+const tasks = [
+    {
+        name: 'billable',
+        cron: config.get('slack.billable.cron'),
+        method: function getBillable() {
+            return billablePercentage(slack, harvest)
+                .then(result => {
+                    console.log(result);
+                });
+        }
+    },
+    {
+        name: 'timesheets',
+        cron: config.get('slack.timesheets.cron'),
+        method: function getTimesheets() {
+            return timesheets(slack, harvest)
+                .then(result => {
+                    console.log(result);
+                });
+        }
+    }
+];
 
 
 // Boot the application
@@ -73,15 +93,10 @@ const server = app.listen(config.get('port'), () => {
     const host = server.address().address;
     const port = server.address().port;
 
-    console.log('%s listening at http://%s:%s', name, host, port);
-    console.log('scheduling a timesheet check for 1800h on weekdays')
+    console.log('[ %s ] listening at http://%s:%s', name, host, port);
 
-    // const j = schedule.scheduleJob('* 18 * * 1-5', () => {
-    //     const slack         = new Slack(config.get('slack.apiToken'));
-    //     console.log('checking timesheets...');
-    //     timesheets(slack, People)
-    //         .then(result => {
-    //             console.log(result);
-    //         });
-    // });
+    const q = tasks.map(function(task) {
+        console.log('[ schedule ] [', task.cron, ']\t', task.name);
+        return schedule.scheduleJob(task.cron, task.method);
+    });
 });
