@@ -4,6 +4,7 @@
         "name"        : "harvester",
         "script"      : "index.js",
         "instances"   : 1,
+        "max_memory_restart": "120M",
         "exec_mode"   : "cluster_mode",
         "args"        : ["--next-gen-js"],
         "watch"       : false,
