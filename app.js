@@ -36,7 +36,7 @@ const TimeTracking      = Promise.promisifyAll(harvest.TimeTracking);
 
 // Represent the result of a promise chain as JSON.
 function apiResponse(res, promise) {
-    promise.then(result => {
+    return promise.then(result => {
         res.json({
             'status': 1,
             'result': result
@@ -53,17 +53,17 @@ function apiResponse(res, promise) {
 
 app.get('/timesheets-plz/', (req, res) => {
     const slack         = new Slack(config.get('slack.apiToken'));
-    const promise       = timesheets(slack, People);
-
-    apiResponse(res, promise)
+    const promise       = timesheets(slack, harvest);
+    return apiResponse(res, promise)
 });
 
 
 app.get('/percentage-plz/', (req, res) => {
     const slack             = new Slack(config.get('slack.apiToken'));
     const promise           = billablePercentage(slack, harvest);
-    apiResponse(res, promise);
+    return apiResponse(res, promise);
 });
+
 
 
 
