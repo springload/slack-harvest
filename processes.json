@@ -3,10 +3,10 @@
     {
         "name"        : "harvester",
         "script"      : "index.js",
-        "instances"   : 4,
+        "instances"   : 1,
         "exec_mode"   : "cluster_mode",
         "args"        : ["--next-gen-js"],
-        "watch"       : true,
+        "watch"       : false,
         "merge_logs"  : true,
         "cwd"         : "./",
         "env": {
